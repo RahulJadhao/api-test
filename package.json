@@ -1,0 +1,12 @@
+{
+  "name": "postman-jenkinproject",
+  "version": "1.0.0",
+  "description": "Postman test",
+  "scripts": {
+    "Apis-test": "newman run MDM.postman_collection.json"
+  },
+  "author": "Rahul Jadhao",
+  "dependencies":{
+	"newman":"^3.5.2"
+}
+}
