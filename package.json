@@ -6,7 +6,7 @@
     "Apis-test": "newman run MDM.postman_collection.json"
   },
   "author": "Rahul Jadhao",
-  "dependencies":{
-	"newman":"^3.5.2"
-}
+  "dependencies": {
+    "newman": "^3.10.0"
+  }
 }
