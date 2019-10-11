@@ -1,2577 +1,12 @@
 {
+	"variables": [],
 	"info": {
-		"_postman_id": "f7ca2913-7121-9e9e-7087-373a542d2564",
-		"name": "MDM",
+		"name": "RaptorMDM",
+		"_postman_id": "5e4effcb-b76c-ac8a-ff47-9f8123ae1598",
+		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
-		{
-			"name": "MDM server",
-			"item": [
-				{
-					"name": "Create Group",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"if(jsonData.success === true)",
-									"{",
-									"    tests[\"sucess\"]=jsonData.success",
-									"    if(jsonData.message === \"success\")",
-									"    {",
-									"       tests[\"Success message\"]=jsonData.message",
-									"       if(jsonData.data[0].id!== null)",
-									"         {",
-									"              postman.setEnvironmentVariable(\"GroupId\", jsonData.data[0].id);",
-									"              tests[\"Group created with Group id: \" + jsonData.data[0].id ] =jsonData.data[0].id",
-									"    ",
-									"        }",
-									"    }",
-									"    else",
-									"    {",
-									"        tests[\"failure in group creation\"] = jsonData.success === false",
-									"        tests[\"Found error\"] =jsonData.message === \"Error\"",
-									"        tests[\"found null data\"]= jsonData.data === null",
-									"    }",
-									"}",
-									" ",
-									"",
-									" ",
-									"// else",
-									"// {",
-									"//   tests[\"Group Id not created\"]  ",
-									"// }",
-									"",
-									"",
-									"",
-									"",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n   \"parentGroupId\": 1,\n  \"name\": \"vss\",\n    \"description\": \"Testing MDM group  \"\n  \n}"
-						},
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/groups"
-					},
-					"response": []
-				},
-				{
-					"name": "Create Group copy",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"if(jsonData.success === true)",
-									"{",
-									"    tests[\"sucess\"]=jsonData.success",
-									"    if(jsonData.message === \"success\")",
-									"    {",
-									"       tests[\"Success message\"]=jsonData.message",
-									"       if(jsonData.data[0].id!== null)",
-									"         {",
-									"              postman.setEnvironmentVariable(\"GroupId\", jsonData.data[0].id);",
-									"              tests[\"Group created with Group id: \" + jsonData.data[0].id ] =jsonData.data[0].id",
-									"    ",
-									"        }",
-									"    }",
-									"    else",
-									"    {",
-									"        tests[\"failure in group creation\"] = jsonData.success === false",
-									"        tests[\"Found error\"] =jsonData.message === \"Error\"",
-									"        tests[\"found null data\"]= jsonData.data === null",
-									"    }",
-									"}",
-									" ",
-									"",
-									" ",
-									"// else",
-									"// {",
-									"//   tests[\"Group Id not created\"]  ",
-									"// }",
-									"",
-									"",
-									"",
-									"",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n   \"parentGroupId\": 1,\n  \"name\": \"vss\",\n    \"description\": \"Testing MDM group  \"\n  \n}"
-						},
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/groups"
-					},
-					"response": []
-				},
-				{
-					"name": "Get Group By ID",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var id= postman.getEnvironmentVariable('GroupId')"
-								]
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"",
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\"",
-									"tests[\"Id attribute is present in response \"] =jsonData.data[0].id!== null",
-									"var gid = postman.getEnvironmentVariable('GroupId')",
-									"tests[\"Retrive details of requested GroupId: \"+gid]= gid ==jsonData.data[0].id"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"disabled": true
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/groups/1"
-					},
-					"response": []
-				},
-				{
-					"name": "Get List of Groups",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"",
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\"",
-									"// tests[\"Id attribute is present in response \"] =jsonData.data[0].id!== null",
-									"// var gid = postman.getEnvironmentVariable('GroupId')",
-									"// tests[\"Retrive details of requested GroupId: \"+gid]= gid ==jsonData.data[0].id",
-									"//  var index=0;",
-									"//  for ( index = 0; jsonData.data[index]!== null; index++) {",
-									"// if(jsonData.data[index].id== gid){",
-									"",
-									"//     tests[\"Retrive details of requested GroupId: \"+gid]= gid ==jsonData.data[0].id",
-									"// }",
-									"// }"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/groups"
-					},
-					"response": []
-				},
-				{
-					"name": "Update Group",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\"",
-									"tests[\"Id attribute is present in response \"] =jsonData.data[0].id!== null",
-									"var gid = postman.getEnvironmentVariable('GroupId')",
-									"tests[\"Retrive details of requested GroupId: \"+gid]= gid ==jsonData.data[0].id"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"id\":\"{{GroupId}}\",\n  \"name\": \"MDM testing1\",\n    \"description\": \"Group testing\"\n} "
-						},
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/groups"
-					},
-					"response": []
-				},
-				{
-					"name": "Add Subgroup",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "[5,7]"
-						},
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/groups/{{GroupId}}/groups"
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Group",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": []
-						},
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/groups/{{GroupId}}"
-					},
-					"response": []
-				},
-				{
-					"name": "Add User to group",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "[11]"
-						},
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/groups/{{GroupId}}/users"
-					},
-					"response": []
-				},
-				{
-					"name": "Assign profile to group",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "[18]"
-						},
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/groups/{{GroupId}}/profiles"
-					},
-					"response": []
-				},
-				{
-					"name": "Get All Users",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/users"
-					},
-					"response": []
-				},
-				{
-					"name": "Create User",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"emailaddress\":\"testchandan@darkmaytter.ae\",\n\t\"alternateEmailAddress\":\"\",\n\t\"userName\":\"test\"\n}\n\n"
-						},
-						"url": "{{APIBaseURL}}/ca/rest/admin/users"
-					},
-					"response": []
-				},
-				{
-					"name": "User for MDM",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"data\":\n\t[\n\t\t{\n\t\t\t\"userId\":0,\n\t\t\t\"serviceId\":\"chat\",\n\t\t\t\"serviceLabel\":\"Katim Chat\",\n\t\t\t\"enabled\":true\n\t\t},\n\t\t{\n\t\t\t\"userId\":0,\n\t\t\t\"serviceId\":\"mdm\",\n\t\t\t\"serviceLabel\":\"MDM\",\n\t\t\t\"enabled\":false\n\t\t},\n\t\t{\n\t\t\t\"userId\":0,\n\t\t\t\"serviceId\":\"ccmaster\",\n\t\t\t\"serviceLabel\":\"Crypto Card\",\n\t\t\t\"enabled\":false\n\t\t},\n\t\t{\n\t\t\t\"userId\":0,\n\t\t\t\"serviceId\":\"raptormdm\",\n\t\t\t\"serviceLabel\":\"Raptor MDM\",\n\t\t\t\"enabled\":false\n\t\t},{\n\t\t\t\"userId\":0,\n\t\t\t\"serviceId\":\"email\",\n\t\t\t\"serviceLabel\":\"Katim Email\",\n\t\t\t\"enabled\":false\n\t\t}\n\t]\n}"
-						},
-						"url": "{{APIBaseURL}}/ca/rest/admin/services/235"
-					},
-					"response": []
-				},
-				{
-					"name": "Get User by Id",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/users/11"
-					},
-					"response": []
-				},
-				{
-					"name": "Get all profiles",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/profiles"
-					},
-					"response": []
-				},
-				{
-					"name": "Create profile VPN",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									" postman.setEnvironmentVariable(\"profile_id\", jsonData.data[0].id);"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"VPN_Profile_1\",\n    \"type\": \"VPN\",\n    \"profileItems\": [{\n        \"operationId\": \"11\",\n        \"profileParameters\": [{\n            \"key\": \"serverName\",\n            \"value\": \"localhost\",\n            \"type\": \"STRING\"\n        }, {\n            \"key\": \"profileName\",\n            \"value\": \"vpn1\",\n            \"type\": \"STRING\"\n        }]\n    }]\n}"
-						},
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/profiles"
-					},
-					"response": []
-				},
-				{
-					"name": "Create profile WIFI",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									" postman.setEnvironmentVariable(\"profile_id\", jsonData.data[0].id);"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\"name\":\"aaaaa\",\n\"type\":\"WIFI\",\n\"profileItems\":[\n{\n\"operationId\":\"54\",\n\"profileParameters\":[\n{\n\"key\":\"ssid\",\n\"value\":\"aaaaa\",\n\"type\":\"STRING\"\n},\n{\n\"key\":\"securityMode\",\n\"value\":\"NONE\",\n\"type\":\"STRING\"\n},\n{\n\"key\":\"password\",\n\"value\":\"jj\",\n\"type\":\"PASSWORD\"\n},\n{\n\"key\":\"hiddenSsid\",\n\"value\":\"true\",\n\"type\":\"BOOLEAN\"\n}\n]\n}\n]\n}"
-						},
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/profiles"
-					},
-					"response": []
-				},
-				{
-					"name": "Create profile Application",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "097327ee-13ba-40fe-a369-97280e52f025",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									" postman.setEnvironmentVariable(\"profile_id\", jsonData.data[0].id);"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\"name\":\"Test\",\n\"type\":\"APPLICATION\",\n\"profileItems\":[\n{\n\"operationId\":\"20\",\n\"profileParameters\":[{\n          \"key\": \"title\",\n          \"value\": \"Test\",\n          \"type\": \"STRING\"\n        }, {\n          \"key\": \"description\",\n          \"value\": \"Test\",\n          \"type\": \"STRING\"\n        }, {\n          \"key\": \"packageName\",\n          \"value\": \"Test\",\n          \"type\": \"STRING\"\n        }, {\n          \"key\": \"versionName\",\n          \"value\": null,\n          \"type\": \"STRING\"\n        }, {\n          \"key\": \"versionCode\",\n          \"value\": \"12\",\n          \"type\": \"STRING\"\n        }, {\n          \"key\": \"apkFileId\",\n          \"value\": 1,\n          \"type\": \"UINT\"\n        }, {\n          \"key\": \"apkFileSize\",\n          \"value\": 1024,\n          \"type\": \"UINT\"\n        }, {\n          \"key\": \"certFileId\",\n          \"value\": 1,\n          \"type\": \"UINT\"\n        }, {\n          \"key\": \"certFileSize\",\n          \"value\": 1024,\n          \"type\": \"UINT\"\n        }, {\n          \"key\": \"userConfirmationNeeded\",\n          \"value\": \"true\",\n          \"type\": \"BOOLEAN\"\n        }]\n}\n]\n}"
-						},
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/profiles"
-					},
-					"response": []
-				},
-				{
-					"name": "Create profile firmware",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "e51a0ffa-fc9d-42fd-816a-b8667be2bdc5",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									" postman.setEnvironmentVariable(\"profile_id\", jsonData.data[0].id);"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\"name\":\"Firmware upgrade\",\n\"type\":\"FIRMWARE\",\n\"profileItems\":[\n{\n\"operationId\":\"124\",\n\"profileParameters\":[\n{\n\"key\":\"versionId\",\n\"value\":\"1\",\n\"type\":\"UINT\"\n},\n{\n\"key\":\"platform\",\n\"value\":\"NONE\",\n\"type\":\"STRING\"\n}\n]\n}\n]\n}"
-						},
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/profiles"
-					},
-					"response": []
-				},
-				{
-					"name": "Create profile certificate",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "2a32e7fe-6e56-4f70-9958-c462ce53589e",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									" postman.setEnvironmentVariable(\"profile_id\", jsonData.data[0].id);"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n \"type\":\"CERTIFICATE\",\n \"name\":\"MDMcertificate\",\n \"profileItems\":[\n    {\n       \"operationId\":\"13\",\n       \"profileParameters\":[\n          {\n             \"key\":\"name\",\n             \"value\":\"MDMcert\",\n             \"type\":\"STRING\"\n          },\n          {\n             \"key\":\"data\",\n             \"value\":\"MDMData\",\n             \"type\":\"BASE64ENCODED\"\n          },\n          {\n             \"key\":\"commonName\",\n             \"value\":\"MDM\",\n             \"type\":\"STRING\"\n          },\n          {\n             \"key\":\"issuer\",\n             \"value\":\"DM\",\n             \"type\":\"STRING\"\n          },\n          {\n             \"key\":\"startDate\",\n             \"value\":\"02/05/2019\",\n             \"type\":\"STRING\"\n          },\n          {\n             \"key\":\"endDate\",\n             \"value\":\"02/05/2019\",\n             \"type\":\"STRING\"\n          },\n           {\n             \"key\":\"fileName\",\n             \"value\":\"Test\",\n             \"type\":\"STRING\"\n          }\n       ]\n    }\n ]\n}"
-						},
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/profiles"
-					},
-					"response": []
-				},
-				{
-					"name": "Create profile device restriction",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "0c9afbb1-6190-43d0-a75f-4c1e664e15e4",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									" postman.setEnvironmentVariable(\"profile_id\", jsonData.data[0].id);"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"name\":\"Test\",\"type\":\"RESTRICTION\",\"profileItems\":[{\"operationId\":\"30\",\"profileParameters\":[{\"key\":\"enabled\",\"value\":true,\"type\":\"BOOLEAN\"}]},{\"operationId\":\"2\",\"profileParameters\":[{\"key\":\"enabled\",\"value\":true,\"type\":\"BOOLEAN\"}]},{\"operationId\":\"68\",\"profileParameters\":[{\"key\":\"enabled\",\"value\":true,\"type\":\"BOOLEAN\"}]},{\"operationId\":\"101\",\"profileParameters\":[{\"key\":\"enabled\",\"value\":true,\"type\":\"BOOLEAN\"}]},{\"operationId\":\"1\",\"profileParameters\":[{\"key\":\"enabled\",\"value\":true,\"type\":\"BOOLEAN\"}]},{\"operationId\":\"102\",\"profileParameters\":[{\"key\":\"enabled\",\"value\":true,\"type\":\"BOOLEAN\"}]},{\"operationId\":\"103\",\"profileParameters\":[{\"key\":\"enabled\",\"value\":true,\"type\":\"BOOLEAN\"}]},{\"operationId\":\"104\",\"profileParameters\":[{\"key\":\"enabled\",\"value\":true,\"type\":\"BOOLEAN\"}]},{\"operationId\":\"105\",\"profileParameters\":[{\"key\":\"enabled\",\"value\":true,\"type\":\"BOOLEAN\"}]},{\"operationId\":\"106\",\"profileParameters\":[{\"key\":\"enabled\",\"value\":true,\"type\":\"BOOLEAN\"}]},{\"operationId\":\"107\",\"profileParameters\":[{\"key\":\"enabled\",\"value\":true,\"type\":\"BOOLEAN\"}]},{\"operationId\":\"108\",\"profileParameters\":[{\"key\":\"enabled\",\"value\":true,\"type\":\"BOOLEAN\"}]},{\"operationId\":\"33\",\"profileParameters\":[{\"key\":\"enabled\",\"value\":true,\"type\":\"BOOLEAN\"}]},{\"operationId\":\"109\",\"profileParameters\":[{\"key\":\"enabled\",\"value\":true,\"type\":\"BOOLEAN\"}]},{\"operationId\":\"7\",\"profileParameters\":[{\"key\":\"enabled\",\"value\":true,\"type\":\"BOOLEAN\"}]},{\"operationId\":\"110\",\"profileParameters\":[{\"key\":\"enabled\",\"value\":true,\"type\":\"BOOLEAN\"}]},{\"operationId\":\"112\",\"profileParameters\":[{\"key\":\"enabled\",\"value\":true,\"type\":\"BOOLEAN\"}]},{\"operationId\":\"27\",\"profileParameters\":[{\"key\":\"enabled\",\"value\":true,\"type\":\"BOOLEAN\"}]},{\"operationId\":\"113\",\"profileParameters\":[{\"key\":\"enabled\",\"value\":true,\"type\":\"BOOLEAN\"}]},{\"operationId\":\"114\",\"profileParameters\":[{\"key\":\"enabled\",\"value\":true,\"type\":\"BOOLEAN\"}]},{\"operationId\":\"115\",\"profileParameters\":[{\"key\":\"enabled\",\"value\":true,\"type\":\"BOOLEAN\"}]},{\"operationId\":\"23\",\"profileParameters\":[{\"key\":\"enabled\",\"value\":true,\"type\":\"BOOLEAN\"}]},{\"operationId\":\"116\",\"profileParameters\":[{\"key\":\"enabled\",\"value\":true,\"type\":\"BOOLEAN\"}]},{\"operationId\":\"67\",\"profileParameters\":[{\"key\":\"enabled\",\"value\":true,\"type\":\"BOOLEAN\"}]},{\"operationId\":\"117\",\"profileParameters\":[{\"key\":\"enabled\",\"value\":true,\"type\":\"BOOLEAN\"}]},{\"operationId\":\"118\",\"profileParameters\":[{\"key\":\"enabled\",\"value\":false,\"type\":\"BOOLEAN\"},{\"key\":\"coolDownPeriod\",\"value\":null,\"type\":\"STRING\"},{\"key\":\"maxFailedAttempts\",\"value\":null,\"type\":\"STRING\"}]},{\"operationId\":\"12\",\"profileParameters\":[{\"key\":\"quality\",\"value\":\"ALPHABETIC\",\"type\":\"STRING\"},{\"key\":\"minLength\",\"value\":\"6\",\"type\":\"STRING\"},{\"key\":\"daysLeftBeforeExpiration\",\"value\":null,\"type\":\"STRING\"},{\"key\":\"lockDelayInSecs\",\"value\":null,\"type\":\"STRING\"},{\"key\":\"pinHistory\",\"value\":null,\"type\":\"STRING\"},{\"key\":\"maxFailedAttempts\",\"value\":null,\"type\":\"STRING\"},{\"key\":\"interval\",\"value\":null,\"type\":\"STRING\"},{\"key\":\"maxNumberOfPrompts\",\"value\":null,\"type\":\"STRING\"},{\"key\":\"nonComplianceAction\",\"value\":null,\"type\":\"STRING\"},{\"key\":\"nonComplianceActionAfterPrompts\",\"value\":null,\"type\":\"STRING\"},{\"key\":\"authFailedWipeGracePeriod\",\"value\":null,\"type\":\"STRING\"}]},{\"operationId\":\"119\",\"profileParameters\":[{\"key\":\"sms1\",\"value\":null,\"type\":\"STRING\"},{\"key\":\"sms2\",\"value\":null,\"type\":\"STRING\"},{\"key\":\"sms3\",\"value\":null,\"type\":\"STRING\"},{\"key\":\"sms4\",\"value\":null,\"type\":\"STRING\"},{\"key\":\"sms5\",\"value\":null,\"type\":\"STRING\"},{\"key\":\"call1\",\"value\":null,\"type\":\"STRING\"},{\"key\":\"action\",\"value\":null,\"type\":\"STRING\"}]},{\"operationId\":\"125\",\"profileParameters\":[{\"key\":\"interval\",\"value\":null,\"type\":\"STRING\"},{\"key\":\"maxNumberOfPrompts\",\"value\":null,\"type\":\"STRING\"},{\"key\":\"nonComplianceAction\",\"value\":null,\"type\":\"STRING\"},{\"key\":\"nonComplianceActionAfterPrompts\",\"value\":null,\"type\":\"STRING\"},{\"key\":\"outOfContactPeriod\",\"value\":null,\"type\":\"STRING\"}]},{\"operationId\":\"130\",\"profileParameters\":[{\"key\":\"joinType\",\"value\":\"AUTO\",\"type\":\"STRING\"}]},{\"operationId\":\"135\",\"profileParameters\":[{\"key\":\"phone\",\"value\":null,\"type\":\"STRING\"}]},{\"operationId\":\"134\",\"profileParameters\":[{\"key\":\"enabled\",\"value\":true,\"type\":\"BOOLEAN\"}]}]}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/profiles"
-					},
-					"response": []
-				},
-				{
-					"name": "Get profile by id",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/profiles/{{profile_id}}"
-					},
-					"response": []
-				},
-				{
-					"name": "update profile",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"id\": \"{{profile_id}}\",\n    \"name\": \"VPN_Profile_11\",\n    \"type\": \"VPN\",\n    \"profileItems\": [{\n        \"operationId\": \"11\",\n        \"profileParameters\": [{\n            \"key\": \"serverName\",\n            \"value\": \"localhost\",\n            \"type\": \"STRING\"\n        }, {\n            \"key\": \"profileName\",\n            \"value\": \"vpn1\",\n            \"type\": \"STRING\"\n        }]\n    }]\n}"
-						},
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/profiles"
-					},
-					"response": []
-				},
-				{
-					"name": "Delete profile",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"VPN_Profile_1\",\n    \"type\": \"VPN\",\n    \"profileItems\": [{\n        \"operationId\": \"11\",\n        \"profileParameters\": [{\n            \"key\": \"serverName\",\n            \"value\": \"localhost\",\n            \"type\": \"STRING\"\n        }, {\n            \"key\": \"profileName\",\n            \"value\": \"vpn1\",\n            \"type\": \"STRING\"\n        }]\n    }]\n}"
-						},
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/profiles/{{profile_id}}"
-					},
-					"response": []
-				},
-				{
-					"name": "get firmware by id",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/firmwares/22"
-					},
-					"response": []
-				},
-				{
-					"name": "get firmwares",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/firmwares"
-					},
-					"response": []
-				},
-				{
-					"name": "get Application",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "d90f54e4-3217-461f-a1b3-bbede60be491",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/applications"
-					},
-					"response": []
-				},
-				{
-					"name": "get device by id",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "bb72aeaf-d6c7-4ff2-9740-23ec4f4ba9ac",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/devices/24"
-					},
-					"response": []
-				},
-				{
-					"name": "Delete device",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": []
-						},
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/groups/{{GroupId}}"
-					},
-					"response": []
-				},
-				{
-					"name": "get devices",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/firmwares"
-					},
-					"response": []
-				},
-				{
-					"name": "get devices contract",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/firmwares"
-					},
-					"response": []
-				},
-				{
-					"name": "profile to devices",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": []
-						},
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/firmwares"
-					},
-					"response": []
-				},
-				{
-					"name": "create devices",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/createDevice"
-					},
-					"response": []
-				},
-				{
-					"name": "create firmware",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"name\": \"firmware44 Test\",\n  \"description\": \"test44 firmwaer\",                      \n  \"platform\": \"androidKatim\"         \n            \n}"
-						},
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/firmwares"
-					},
-					"response": []
-				},
-				{
-					"name": "delete firmware ",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": []
-						},
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/firmwares/15"
-					},
-					"response": []
-				},
-				{
-					"name": "update firmware ",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"id\":17,\n  \"name\": \"firmware44 Test///\",\n  \"description\": \"test44 firmwaer...\",                      \n  \"platform\": \"androidKatim\"         \n            \n}"
-						},
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/firmwares"
-					},
-					"response": []
-				},
-				{
-					"name": "get versions by firmwareId",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/firmwares/22/versions"
-					},
-					"response": []
-				},
-				{
-					"name": "get versions by application",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/firmwares/22/versions"
-					},
-					"response": []
-				},
-				{
-					"name": "get versions",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "53d50491-cd96-4d56-98c1-580b7baefe05",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/firmwares/22/versions"
-					},
-					"response": []
-				},
-				{
-					"name": "created version",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "f27a69ef-d5d8-44db-9ed8-66b866b4ae3c",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"firmwareId\":12,\n\t\"apkVersionName\":\"test\",\n\t\"apkVersionCode\":\"123\",\n\t\"platformVersion\":\"test\",\n\t\"firmwareToVersion\":\"test\"\n\t\n}"
-						},
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/versions"
-					},
-					"response": []
-				},
-				{
-					"name": "created application",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\t\t\"name\": \"test App\",\n            \"description\": \"App test\",\n            \"versions\": null\n}"
-						},
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/applications"
-					},
-					"response": []
-				},
-				{
-					"name": "delete application",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "badf9300-cd2b-487e-b920-af601027275d",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\t\t\"name\": \"test App\",\n            \"description\": \"App test\",\n            \"versions\": null\n}"
-						},
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/applications/"
-					},
-					"response": []
-				},
-				{
-					"name": "GET RESOURCES WITH A PROFILE IN A POLICY",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/profiles/{{profile_id}}"
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Group copy",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/groups/{{GroupId}}"
-					},
-					"response": []
-				},
-				{
-					"name": "Attestation Reports",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/devices/1/attestationReports"
-					},
-					"response": []
-				},
-				{
-					"name": "installed Applications",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/devices/1/installedApplications"
-					},
-					"response": []
-				},
-				{
-					"name": "installedCertificates",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/devices/1/installedCertificates"
-					},
-					"response": []
-				},
-				{
-					"name": "logFiles",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/devices/1/logFiles"
-					},
-					"response": []
-				},
-				{
-					"name": "Get Group search by id",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var id= postman.getEnvironmentVariable('GroupId')"
-								]
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"",
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\"",
-									"tests[\"Id attribute is present in response \"] =jsonData.data[0].id!== null",
-									"var gid = postman.getEnvironmentVariable('GroupId')",
-									"tests[\"Retrive details of requested GroupId: \"+gid]= gid ==jsonData.data[0].id"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"disabled": true
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/groups/1"
-					},
-					"response": []
-				},
-				{
-					"name": "ad-hoc",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "[ {\n \t\"operationId\": \"16\",\n        \"profileParameters\": [{\n            \"key\": \"enabled\",\n            \"value\": \"true\",\n            \"type\": \"BOOLEAN\"\n        },\n         {\n            \"key\": \"password\",\n            \"value\": \"test\",\n            \"type\": \"STRING\"\n        }]\n}]"
-						},
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/devices/53/operations"
-					},
-					"response": []
-				},
-				{
-					"name": "generic statistics",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/statistics"
-					},
-					"response": []
-				},
-				{
-					"name": "create file",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "ef0e7218-0151-4be8-a2bc-04774fd1374a",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "[ {\n \t\"operationId\": \"16\",\n        \"profileParameters\": [{\n            \"key\": \"enabled\",\n            \"value\": \"true\",\n            \"type\": \"BOOLEAN\"\n        },\n         {\n            \"key\": \"password\",\n            \"value\": \"test\",\n            \"type\": \"STRING\"\n        }]\n}]"
-						},
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/files"
-					},
-					"response": []
-				},
-				{
-					"name": "get files",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "ef0e7218-0151-4be8-a2bc-04774fd1374a",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "[ {\n \t\"operationId\": \"16\",\n        \"profileParameters\": [{\n            \"key\": \"enabled\",\n            \"value\": \"true\",\n            \"type\": \"BOOLEAN\"\n        },\n         {\n            \"key\": \"password\",\n            \"value\": \"test\",\n            \"type\": \"STRING\"\n        }]\n}]"
-						},
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/files"
-					},
-					"response": []
-				},
-				{
-					"name": "device statistics",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							},
-							{
-								"key": "fileId",
-								"value": "1",
-								"disabled": true
-							},
-							{
-								"key": "fileName",
-								"value": "null",
-								"disabled": true
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/statistics/devices"
-					},
-					"response": []
-				},
-				{
-					"name": "sosEvent",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							},
-							{
-								"key": "fileId",
-								"value": "1",
-								"disabled": true
-							},
-							{
-								"key": "fileName",
-								"value": "null",
-								"disabled": true
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/statistics/devices"
-					},
-					"response": []
-				},
-				{
-					"name": "agent",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							},
-							{
-								"key": "fileId",
-								"value": "1",
-								"disabled": true
-							},
-							{
-								"key": "fileName",
-								"value": "null",
-								"disabled": true
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/statistics/devices"
-					},
-					"response": []
-				},
-				{
-					"name": "Search user",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "0044b946-ea8c-4a72-96b9-f92645f3b4d8",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							},
-							{
-								"key": "fileId",
-								"value": "1",
-								"disabled": true
-							},
-							{
-								"key": "fileName",
-								"value": "null",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"groupIds\":[],\"profileIds\":[],\"policyCompliance\":[],\"devicePlatform\":[],\"imeis\":[],\"serialNumbers\":[],\"installedApplicationVersions\":[],\"firmwareVersions\":[],\"carrierNetworks\":[],\"phoneNumbers\":[],\"lastConnectedDevices\":[]}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/users/search"
-					},
-					"response": []
-				},
-				{
-					"name": "Search device",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							},
-							{
-								"key": "fileId",
-								"value": "1",
-								"disabled": true
-							},
-							{
-								"key": "fileName",
-								"value": "null",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"groupIds\": [2],\n  \"lastConnectedDevice\":6\n}"
-						},
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/users/search"
-					},
-					"response": []
-				},
-				{
-					"name": "Search group",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "4c75f4c3-7eab-484c-8ad2-e4f3eaf62ca8",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							},
-							{
-								"key": "fileId",
-								"value": "1",
-								"disabled": true
-							},
-							{
-								"key": "fileName",
-								"value": "null",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"groupIds\":[],\"profileIds\":[],\"policyCompliance\":[],\"devicePlatform\":[],\"imeis\":[],\"serialNumbers\":[],\"installedApplicationVersions\":[],\"firmwareVersions\":[],\"carrierNetworks\":[],\"phoneNumbers\":[],\"lastConnectedDevices\":[]}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/groups/advancedSearch"
-					},
-					"response": []
-				},
-				{
-					"name": "Alert Event",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							},
-							{
-								"key": "fileId",
-								"value": "1",
-								"disabled": true
-							},
-							{
-								"key": "fileName",
-								"value": "null",
-								"disabled": true
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/statistics/alerts"
-					},
-					"response": []
-				},
-				{
-					"name": "upload file url",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							},
-							{
-								"key": "fileId",
-								"value": "1",
-								"disabled": true
-							},
-							{
-								"key": "fileName",
-								"value": "null",
-								"disabled": true
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/files/35/uploadUrl"
-					},
-					"response": []
-				},
-				{
-					"name": "upload file url minio",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							},
-							{
-								"key": "fileId",
-								"value": "1",
-								"disabled": true
-							},
-							{
-								"key": "fileName",
-								"value": "null",
-								"disabled": true
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/files/35/uploadUrl"
-					},
-					"response": []
-				},
-				{
-					"name": "Minio upload file",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "multipart/form-data",
-								"disabled": true
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "file",
-							"file": {
-								"src": ""
-							}
-						},
-						"url": {
-							"raw": "http://darkcloud8.darkmatter.ae:47742/mdm.devicereport.47.65/Debug-01-07-2019-01-17.log?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=mdmMinioUser%2F20190701%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20190701T074703Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=939a43b6a198c5a747cd886d45fb3499f325985df6a0d1cb812484bf5f19755c",
-							"protocol": "http",
-							"host": [
-								"darkcloud8",
-								"darkmatter",
-								"ae"
-							],
-							"port": "47742",
-							"path": [
-								"mdm.devicereport.47.65",
-								"Debug-01-07-2019-01-17.log"
-							],
-							"query": [
-								{
-									"key": "X-Amz-Algorithm",
-									"value": "AWS4-HMAC-SHA256"
-								},
-								{
-									"key": "X-Amz-Credential",
-									"value": "mdmMinioUser%2F20190701%2Fus-east-1%2Fs3%2Faws4_request"
-								},
-								{
-									"key": "X-Amz-Date",
-									"value": "20190701T074703Z"
-								},
-								{
-									"key": "X-Amz-Expires",
-									"value": "86400"
-								},
-								{
-									"key": "X-Amz-SignedHeaders",
-									"value": "host"
-								},
-								{
-									"key": "X-Amz-Signature",
-									"value": "939a43b6a198c5a747cd886d45fb3499f325985df6a0d1cb812484bf5f19755c"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Decrpt file",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							},
-							{
-								"key": "fileId",
-								"value": "1",
-								"disabled": true
-							},
-							{
-								"key": "fileName",
-								"value": "null",
-								"disabled": true
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/files/35/uploadUrl"
-					},
-					"response": []
-				},
-				{
-					"name": "get Download URL",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							},
-							{
-								"key": "fileId",
-								"value": "1",
-								"disabled": true
-							},
-							{
-								"key": "fileName",
-								"value": "null",
-								"disabled": true
-							}
-						],
-						"url": "{{APIBaseURL}}/{{mdmadmin}}/files/35/uploadUrl"
-					},
-					"response": []
-				},
-				{
-					"name": "Download file",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							},
-							{
-								"key": "fileId",
-								"value": "1",
-								"disabled": true
-							},
-							{
-								"key": "fileName",
-								"value": "null",
-								"disabled": true
-							}
-						],
-						"url": {
-							"raw": "https://darkcloud8.darkmatter.ae:47749/mdm.6.7.7000.app.181.3/debug.txt?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=mdmMinioUser%2F20190725%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20190725T074400Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=b16881f864612c3c1a5d7a9740860d65d6150aa2f6f003c9493afea016f65a2c",
-							"protocol": "https",
-							"host": [
-								"darkcloud8",
-								"darkmatter",
-								"ae"
-							],
-							"port": "47749",
-							"path": [
-								"mdm.6.7.7000.app.181.3",
-								"debug.txt"
-							],
-							"query": [
-								{
-									"key": "X-Amz-Algorithm",
-									"value": "AWS4-HMAC-SHA256"
-								},
-								{
-									"key": "X-Amz-Credential",
-									"value": "mdmMinioUser%2F20190725%2Fus-east-1%2Fs3%2Faws4_request"
-								},
-								{
-									"key": "X-Amz-Date",
-									"value": "20190725T074400Z"
-								},
-								{
-									"key": "X-Amz-Expires",
-									"value": "86400"
-								},
-								{
-									"key": "X-Amz-SignedHeaders",
-									"value": "host"
-								},
-								{
-									"key": "X-Amz-Signature",
-									"value": "b16881f864612c3c1a5d7a9740860d65d6150aa2f6f003c9493afea016f65a2c"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Download file copy",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							},
-							{
-								"key": "fileId",
-								"value": "1",
-								"disabled": true
-							},
-							{
-								"key": "fileName",
-								"value": "null",
-								"disabled": true
-							}
-						],
-						"url": {
-							"raw": "https://darkcloud8.darkmatter.ae:47749/mdm.6.7.7000.app.181.3/debug.txt?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=mdmMinioUser%2F20190725%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20190725T074400Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=b16881f864612c3c1a5d7a9740860d65d6150aa2f6f003c9493afea016f65a2c",
-							"protocol": "https",
-							"host": [
-								"darkcloud8",
-								"darkmatter",
-								"ae"
-							],
-							"port": "47749",
-							"path": [
-								"mdm.6.7.7000.app.181.3",
-								"debug.txt"
-							],
-							"query": [
-								{
-									"key": "X-Amz-Algorithm",
-									"value": "AWS4-HMAC-SHA256"
-								},
-								{
-									"key": "X-Amz-Credential",
-									"value": "mdmMinioUser%2F20190725%2Fus-east-1%2Fs3%2Faws4_request"
-								},
-								{
-									"key": "X-Amz-Date",
-									"value": "20190725T074400Z"
-								},
-								{
-									"key": "X-Amz-Expires",
-									"value": "86400"
-								},
-								{
-									"key": "X-Amz-SignedHeaders",
-									"value": "host"
-								},
-								{
-									"key": "X-Amz-Signature",
-									"value": "b16881f864612c3c1a5d7a9740860d65d6150aa2f6f003c9493afea016f65a2c"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Download file copy Copy",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"tests[\"Successful POST request\"] = responseCode.code === 200;",
-									"tests[\"sucess\"] =jsonData.success === true",
-									"tests[\"Success message\"] = jsonData.message === \"success\""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_DS_TOKEN}}"
-							},
-							{
-								"key": "fileId",
-								"value": "1",
-								"disabled": true
-							},
-							{
-								"key": "fileName",
-								"value": "null",
-								"disabled": true
-							}
-						],
-						"url": {
-							"raw": "https://darkcloud8.darkmatter.ae:47749/mdm.6.7.7000.app.181.3/debug.txt?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=mdmMinioUser%2F20190725%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20190725T074400Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=b16881f864612c3c1a5d7a9740860d65d6150aa2f6f003c9493afea016f65a2c",
-							"protocol": "https",
-							"host": [
-								"darkcloud8",
-								"darkmatter",
-								"ae"
-							],
-							"port": "47749",
-							"path": [
-								"mdm.6.7.7000.app.181.3",
-								"debug.txt"
-							],
-							"query": [
-								{
-									"key": "X-Amz-Algorithm",
-									"value": "AWS4-HMAC-SHA256"
-								},
-								{
-									"key": "X-Amz-Credential",
-									"value": "mdmMinioUser%2F20190725%2Fus-east-1%2Fs3%2Faws4_request"
-								},
-								{
-									"key": "X-Amz-Date",
-									"value": "20190725T074400Z"
-								},
-								{
-									"key": "X-Amz-Expires",
-									"value": "86400"
-								},
-								{
-									"key": "X-Amz-SignedHeaders",
-									"value": "host"
-								},
-								{
-									"key": "X-Amz-Signature",
-									"value": "b16881f864612c3c1a5d7a9740860d65d6150aa2f6f003c9493afea016f65a2c"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
 		{
 			"name": "authenticate",
 			"event": [
@@ -2580,138 +15,335 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"/*var jsonData = JSON.parse(responseBody);",
-							"tests[\"Successful POST request\"] = responseCode.code === 400;",
-							"tests[\"Success message\"] = jsonData.message === \"Verification required\"",
-							"tests[\"code sending on email\"] = jsonData.code === 11*/",
-							"",
-							"",
 							"var token1=postman.getResponseCookie(\"XSRF_DS_TOKEN\").value;",
 							"postman.setEnvironmentVariable(\"XSRF_DS_TOKEN\",token1);",
-							"var jsonData = JSON.parse(responseBody);",
-							"postman.setEnvironmentVariable(\"username\",jsonData.userName);",
-							"tests[\"Successful POST request\"] = responseCode.code === 200;"
+							"// tests[\"Successful POST request\"] = responseCode.code === 200;",
+							"// tests[\"Success message\"] = jsonData.userName === \"anita.vadverao@darkmatter.ae\"",
+							""
 						]
 					}
 				}
 			],
 			"request": {
+				"url": "https://localhost:54345/darkserverAdmin/rest/user/authenticate",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Host",
-						"value": "192.168.10.49:8345"
+						"value": "192.168.10.49:8345",
+						"description": "",
+						"disabled": true
 					},
 					{
 						"key": "Connection",
-						"value": "keep-alive"
+						"value": "keep-alive",
+						"description": "",
+						"disabled": true
 					},
 					{
 						"key": "Accept",
-						"value": "application/json, text/plain, */*"
+						"value": "application/json, text/plain, */*",
+						"description": ""
 					},
 					{
 						"key": "Origin",
-						"value": "https://192.168.10.49:8345"
+						"value": "https://192.168.10.49:8345",
+						"description": "",
+						"disabled": true
 					},
 					{
 						"key": "User-Agent",
-						"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"
+						"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36",
+						"description": "",
+						"disabled": true
 					},
 					{
 						"key": "Content-Type",
-						"value": "application/json;charset=UTF-8"
+						"value": "application/json;charset=UTF-8",
+						"description": ""
 					},
 					{
 						"key": "Referer",
-						"value": "https://192.168.10.106:8345/"
+						"value": "https://192.168.10.106:8345/",
+						"description": "",
+						"disabled": true
 					},
 					{
 						"key": "Accept-Encoding",
-						"value": "gzip, deflate, br"
+						"value": "gzip, deflate, br",
+						"description": "",
+						"disabled": true
 					},
 					{
 						"key": "Accept-Language",
-						"value": "en-US,en;q=0.9"
+						"value": "en-US,en;q=0.9",
+						"description": "",
+						"disabled": true
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"userId\":\"anita\",\n\t\"usercred\":\"c20d5a7ddae6e941b531bd98ceb5fd99bb6fb42c6e9c50429a7a019314203b5cf66eec13d6eb7d1dafcd2791a8674ffb93eb869db0694c55acf9374a7ab62c89\"\n\t\n}\n"
+					"raw": "{\"userId\":\"admin\",\"usercred\":\"eb064fb9c53fd0b46537315c1ceaa5f795a0058fd863fc8e25ef71ca3f4d3f4c1600f8750c0e94cb1a6923b0cfa026d9b905ccc476ca2ec0868bc788ff082a2e\"}\n\n"
 				},
-				"url": "{{APIBaseURL}}/{{Admin}}/authenticate"
+				"description": null
 			},
-			"response": []
+			"response": [
+				{
+					"id": "921179e4-ecdc-48c6-bc70-8d5a14989e8b",
+					"name": "authenticate",
+					"originalRequest": {
+						"url": "{{APIBaseURL}}/{{Admin}}/authenticate",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Host",
+								"value": "192.168.10.49:8345",
+								"description": "",
+								"warning": ""
+							},
+							{
+								"key": "Connection",
+								"value": "keep-alive",
+								"description": "",
+								"warning": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json, text/plain, */*",
+								"description": "",
+								"warning": ""
+							},
+							{
+								"key": "Origin",
+								"value": "https://192.168.10.49:8345",
+								"description": "",
+								"warning": ""
+							},
+							{
+								"key": "User-Agent",
+								"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36",
+								"description": "",
+								"warning": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"description": "",
+								"warning": ""
+							},
+							{
+								"key": "Referer",
+								"value": "https://192.168.10.106:8345/",
+								"description": "",
+								"warning": ""
+							},
+							{
+								"key": "Accept-Encoding",
+								"value": "gzip, deflate, br",
+								"description": "",
+								"warning": ""
+							},
+							{
+								"key": "Accept-Language",
+								"value": "en-US,en;q=0.9",
+								"description": "",
+								"warning": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\":\"anita\",\n  \"usercred\":\"c20d5a7ddae6e941b531bd98ceb5fd99bb6fb42c6e9c50429a7a019314203b5cf66eec13d6eb7d1dafcd2791a8674ffb93eb869db0694c55acf9374a7ab62c89\"\n  \n}\n"
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"_postman_previewtype": "text",
+					"header": [
+						{
+							"name": "cache-control",
+							"key": "cache-control",
+							"value": "no-cache, no-store, must-revalidate, no-cache, no-store, must-revalidate",
+							"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+						},
+						{
+							"name": "connection",
+							"key": "connection",
+							"value": "keep-alive",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"name": "content-length",
+							"key": "content-length",
+							"value": "266",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"name": "content-security-policy",
+							"key": "content-security-policy",
+							"value": "default-src 'self' 'unsafe-eval' 'unsafe-inline';font-src 'self' data:; img-src 'self' data: https: blob:; connect-src 'self' wss:;, default-src 'self' 'unsafe-eval' 'unsafe-inline';font-src 'self' data:; img-src 'self' data: https: blob:; connect-src 'self' wss:;",
+							"description": "Custom header"
+						},
+						{
+							"name": "content-type",
+							"key": "content-type",
+							"value": "application/json",
+							"description": "The mime type of this content"
+						},
+						{
+							"name": "date",
+							"key": "date",
+							"value": "Tue, 26 Mar 2019 04:42:52 GMT",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"name": "ds-node-instance",
+							"key": "ds-node-instance",
+							"value": "darkmdmserver_node_1.7000, darkmdmserver_node_1.7000",
+							"description": "Custom header"
+						},
+						{
+							"name": "expires",
+							"key": "expires",
+							"value": "0, 0",
+							"description": "Gives the date/time after which the response is considered stale"
+						},
+						{
+							"name": "keep-alive",
+							"key": "keep-alive",
+							"value": "timeout=300, timeout=300",
+							"description": "Custom header"
+						},
+						{
+							"name": "pragma",
+							"key": "pragma",
+							"value": "no-cache, no-cache",
+							"description": "Implementation-specific headers that may have various effects anywhere along the request-response chain."
+						},
+						{
+							"name": "x-frame-options",
+							"key": "x-frame-options",
+							"value": "sameorigin, sameorigin",
+							"description": "Clickjacking protection: \"deny\" - no rendering within a frame, \"sameorigin\" - no rendering if origin mismatch"
+						},
+						{
+							"name": "x-xss-protection",
+							"key": "x-xss-protection",
+							"value": "1; mode=block, 1; mode=block",
+							"description": "Cross-site scripting (XSS) filter"
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Invalid Date",
+							"hostOnly": true,
+							"httpOnly": true,
+							"domain": "darkcloud6.darkmatter.ae",
+							"path": "/",
+							"secure": true,
+							"session": true,
+							"value": "nmcOdepu7poYgs0KdE5jfcglvKueqy9wyEmnfwIl",
+							"key": "JSESSIONID"
+						},
+						{
+							"expires": "Invalid Date",
+							"hostOnly": true,
+							"httpOnly": true,
+							"domain": "darkcloud6.darkmatter.ae",
+							"path": "/",
+							"secure": true,
+							"session": true,
+							"value": "\"anita@62e30a40-d73e-4e6e-9c9f-270d8de918ec:5Uf3uh0sOBiGN1X0VvBw/HljaGKToG/gxTnz5NHlvLvuLP1cMykT2v/iKQmNdOOoigDnXSPYmgoHLjyFlswYJA==\"",
+							"key": "DM_DS_COOKIE"
+						},
+						{
+							"expires": "Invalid Date",
+							"hostOnly": true,
+							"httpOnly": false,
+							"domain": "darkcloud6.darkmatter.ae",
+							"path": "/",
+							"secure": true,
+							"session": true,
+							"value": "xXBt_p9c18nfNjJlMzBhNDAtZDczZS00ZTZlLTljOWYtMjcwZDhkZTkxOGVj",
+							"key": "XSRF_DS_TOKEN"
+						}
+					],
+					"responseTime": 470,
+					"body": "{\"secureRandom\":\"5Uf3uh0sOBiGN1X0VvBw/HljaGKToG/gxTnz5NHlvLvuLP1cMykT2v/iKQmNdOOoigDnXSPYmgoHLjyFlswYJA==\",\"result\":\"SUCCESS\",\"sessionId\":\"62e30a40-d73e-4e6e-9c9f-270d8de918ec\",\"userName\":\"anita.vadverao@darkmatter.ae\",\"adminId\":5443347575385754684,\"attemptsLeft\":0}"
+				}
+			]
 		},
 		{
-			"name": "check Verification Code And Login",
+			"name": "Create Group",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "be9efefd-e18c-485b-8ce4-4b3ffc6d0d95",
+						"type": "text/javascript",
 						"exec": [
-							"var token1=postman.getResponseCookie(\"XSRF_DS_TOKEN\").value;",
-							"postman.setEnvironmentVariable(\"XSRF_DS_TOKEN\",token1);",
 							"var jsonData = JSON.parse(responseBody);",
-							"postman.setEnvironmentVariable(\"username\",jsonData.userName);",
 							"tests[\"Successful POST request\"] = responseCode.code === 200;",
+							"if(jsonData.success === true)",
+							"{",
+							"    tests[\"sucess\"]=jsonData.success",
+							"    if(jsonData.message === \"success\")",
+							"    {",
+							"       tests[\"Success message\"]=jsonData.message",
+							"       if(jsonData.data[0].id!== null)",
+							"         {",
+							"              postman.setEnvironmentVariable(\"GroupId\", jsonData.data[0].id);",
+							"              tests[\"Group created with Group id: \" + jsonData.data[0].id ] =jsonData.data[0].id",
+							"    ",
+							"        }",
+							"    }",
+							"    else",
+							"    {",
+							"        tests[\"failure in group creation\"] = jsonData.success === false",
+							"        tests[\"Found error\"] =jsonData.message === \"Error\"",
+							"        tests[\"found null data\"]= jsonData.data === null",
+							"    }",
+							"}",
+							" ",
+							"",
+							" ",
+							"// else",
+							"// {",
+							"//   tests[\"Group Id not created\"]  ",
+							"// }",
+							"",
+							"",
+							"",
+							"",
 							""
-						],
-						"type": "text/javascript"
+						]
 					}
 				}
 			],
 			"request": {
+				"url": "https://localhost:54345/darkMdmServer/rest/mdmadmin/groups",
 				"method": "POST",
 				"header": [
 					{
-						"key": "Host",
-						"value": "192.168.10.106:8345"
-					},
-					{
-						"key": "Connection",
-						"value": "keep-alive"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json, text/plain, */*"
-					},
-					{
-						"key": "Origin",
-						"value": "https://192.168.10.106:8345"
-					},
-					{
-						"key": "User-Agent",
-						"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"
-					},
-					{
 						"key": "Content-Type",
-						"value": "application/json;charset=UTF-8"
+						"value": "application/json",
+						"description": ""
 					},
 					{
-						"key": "Referer",
-						"value": "https://192.168.10.106:8345/"
-					},
-					{
-						"key": "Accept-Encoding",
-						"value": "gzip, deflate, br"
-					},
-					{
-						"key": "Accept-Language",
-						"value": "en-US,en;q=0.9"
+						"key": "X-XSRF-TOKEN",
+						"value": "{{XSRF_DS_TOKEN}}",
+						"description": ""
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"userId\":\"admin\",\"usercred\":\"eb064fb9c53fd0b46537315c1ceaa5f795a0058fd863fc8e25ef71ca3f4d3f4c1600f8750c0e94cb1a6923b0cfa026d9b905ccc476ca2ec0868bc788ff082a2e\",\n \"verificationCode\": \"02951281\"\n}"
+					"raw": "{\n  \"parentGroupId\": 1,\n  \"name\": \"test\",\n  \"description\": \"testing group\",\n  \"type\": \"USER\"\n  \n} "
 				},
-				"url": "{{APIBaseURL}}/{{Admin}}/checkVerificationCodeAndLogin"
+				"description": null
 			},
 			"response": []
 		},
 		{
-			"name": "Get current admin details",
+			"name": "Get Group By ID copy",
 			"event": [
 				{
 					"listen": "test",
@@ -2719,20 +351,89 @@
 						"type": "text/javascript",
 						"exec": [
 							"",
-							"tests[\"Successful POST request\"] = responseCode.code === 200;"
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Successful POST request\"] = responseCode.code === 200;",
+							"tests[\"sucess\"] =jsonData.success === true",
+							"tests[\"Success message\"] = jsonData.message === \"success\"",
+							"tests[\"Id attribute is present in response \"] =jsonData.data[0].id!== null",
+							"var gid = postman.getEnvironmentVariable('GroupId')",
+							"tests[\"Retrive details of requested GroupId: \"+gid]= gid ==jsonData.data[0].id"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var id= postman.getEnvironmentVariable('GroupId')"
 						]
 					}
 				}
 			],
 			"request": {
+				"url": "https://localhost:54345/darkMdmServer/rest/mdmadmin/groups/{{GroupId}}",
 				"method": "GET",
 				"header": [
 					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "",
+						"disabled": true
+					},
+					{
 						"key": "X-XSRF-TOKEN",
-						"value": "{{XSRF_DS_TOKEN}}"
+						"value": "{{XSRF_DS_TOKEN}}",
+						"description": ""
 					}
 				],
-				"url": "{{APIBaseURL}}/{{Admin}}/currentAdmin"
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"parentGroupId\": 1,\n  \"name\": \"test\",\n    \"description\": \"test\"\n} "
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "Update Group copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Successful POST request\"] = responseCode.code === 200;",
+							"tests[\"sucess\"] =jsonData.success === true",
+							"tests[\"Success message\"] = jsonData.message === \"success\"",
+							"tests[\"Id attribute is present in response \"] =jsonData.data[0].id!== null",
+							"var gid = postman.getEnvironmentVariable('GroupId')",
+							"tests[\"Retrive details of requested GroupId: \"+gid]= gid ==jsonData.data[0].id"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "https://localhost:54345/darkMdmServer/rest/mdmadmin/groups",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{XSRF_DS_TOKEN}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\":{{GroupId}},\n  \"parentGroupId\": 1,\n  \"name\": \"Users\",\n  \"description\": \"test group1\",\n  \"type\":\"USER\"\n} "
+				},
+				"description": null
 			},
 			"response": []
 		}
